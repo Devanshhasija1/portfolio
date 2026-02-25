@@ -6,12 +6,22 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "compress-pdfs": "node scripts/compress-pdfs.mjs",
+    "compress-pdfs:high": "node scripts/compress-pdfs.mjs --high",
+    "compress-videos": "node scripts/compress-videos.mjs",
+    "compress-videos:high": "node scripts/compress-videos.mjs --high",
+    "compress-images": "node scripts/compress-images.mjs",
+    "compress-images:high": "node scripts/compress-images.mjs --high",
+    "compress-all": "node scripts/compress-pdfs.mjs && node scripts/compress-images.mjs && node scripts/compress-videos.mjs"
   },
   "dependencies": {
+    "gsap": "^3.14.2",
+    "lenis": "^1.3.17",
     "next": "16.1.6",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "split-type": "^0.3.4"
   },
   "devDependencies": {
     "@types/node": "^20",
