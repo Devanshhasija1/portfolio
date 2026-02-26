@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { trackSocialClick, trackClick } from '@/lib/gtag';
+import { copyEmail } from '@/lib/copyEmail';
 
 function SocialLink({
   href,
@@ -65,7 +66,7 @@ function SocialLink({
 
 export default function Footer() {
   const [time, setTime] = useState('');
-  const buttonRef = useRef<HTMLAnchorElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     function updateClock() {
@@ -159,13 +160,13 @@ export default function Footer() {
 
           <div className="ft-row-button">
             <div className="footer-button-area">
-              <a
+              <button
                 ref={buttonRef}
-                href="mailto:hdevansh@gmail.com"
                 className="footer-button-wrapper w-inline-block"
-                onClick={() => trackClick('footer', 'get_in_touch')}
+                onClick={() => { copyEmail(); trackClick('footer', 'get_in_touch'); }}
                 onMouseEnter={handleButtonEnter}
                 onMouseLeave={handleButtonLeave}
+                type="button"
               >
                 <div className="circ-purple"></div>
                 <div className="footer-button-text">
@@ -174,7 +175,7 @@ export default function Footer() {
                     <h2 className="text-style-h5 style-footer abs">Yass hit it!</h2>
                   </div>
                 </div>
-              </a>
+              </button>
             </div>
           </div>
 

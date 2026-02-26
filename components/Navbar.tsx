@@ -5,13 +5,12 @@ import Link from 'next/link';
 
 import { usePathname } from 'next/navigation';
 import ResumeModal from '@/components/ResumeModal';
-import ContactModal from '@/components/ContactModal';
 import { trackClick, trackModalOpen } from '@/lib/gtag';
+import { copyEmail } from '@/lib/copyEmail';
 
 export default function Navbar() {
   const pathname = usePathname();
   const [resumeOpen, setResumeOpen] = useState(false);
-  const [contactOpen, setContactOpen] = useState(false);
 
   const navLinks = [
     { href: '/', label: 'Home' },
@@ -20,7 +19,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav aria-label="Main navigation" data-w-id="04942b5e-8f75-69d6-06cb-ee6d04d863b1" className="navbar-wrapper">
+      <nav aria-label="Main navigation" className="navbar-wrapper">
         <div className="nav-left">
           <Link href="/" aria-label="Devansh Hasija - Home" aria-current={pathname === '/' ? 'page' : undefined} className="nav_logo-link w-inline-block">
             <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="nav-logo" role="img" aria-hidden="true">
@@ -40,7 +39,7 @@ export default function Navbar() {
           </Link>
           <button
             type="button"
-            onClick={() => { setContactOpen(true); trackModalOpen('contact'); }}
+            onClick={() => { copyEmail(); trackClick('navbar', 'contact'); }}
             className="nav_contact-link w-inline-block"
             style={{ cursor: 'pointer' }}
           >
@@ -79,7 +78,6 @@ export default function Navbar() {
         </div>
       </nav>
       <ResumeModal isOpen={resumeOpen} onClose={() => setResumeOpen(false)} />
-      <ContactModal isOpen={contactOpen} onClose={() => setContactOpen(false)} />
     </>
   );
 }

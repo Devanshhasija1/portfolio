@@ -47,11 +47,6 @@ export default function HeroSection() {
                 <div className="video-embed-wrapper">
                   <div className="video-embed w-embed">
                     <div
-                      data-poster-url=""
-                      data-video-urls="/media/animation-reel.webm,/media/animation-reel.mp4"
-                      data-autoplay="true"
-                      data-loop="true"
-                      data-wf-ignore="true"
                       style={{ width: '100%', height: '100%' }}
                       className="w-background-video w-background-video-atom"
                     >
@@ -61,28 +56,22 @@ export default function HeroSection() {
                         muted
                         autoPlay
                         preload="none"
-                        style={{ backgroundImage: "url('')" }}
-                        data-wf-ignore="true"
-                        data-object-fit="cover"
+                        style={{ objectFit: 'cover' }}
                       >
-                        <source src="/media/animation-reel.webm" type="video/webm" data-wf-ignore="true" />
-                        <source src="/media/animation-reel.mp4" type="video/mp4" data-wf-ignore="true" />
+                        <source src="/media/animation-reel.webm" type="video/webm" />
+                        <source src="/media/animation-reel.mp4" type="video/mp4" />
                       </video>
                     </div>
                   </div>
                   <div className="showreel-text-wrapper">
                     <a
                       className="showreel-playlottie only-icon"
-                      data-w-id="dcf0555f-9acb-8e04-97a7-dd0530a0af53"
                       data-animation-type="lottie"
-                      data-src="https://uploads-ssl.webflow.com/5e56d5303779dac51cf15391/64707656de20455aa6404553_play%20button.json"
+                      data-src="/lottie/play-button.json"
                       data-loop="1"
                       data-direction="1"
                       data-autoplay="1"
-                      data-is-ix2-target="0"
                       data-renderer="svg"
-                      data-default-duration="1.334667946972529"
-                      data-duration="0"
                       href="https://vimeo.com/917930097?share=copy"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -143,11 +132,6 @@ export default function HeroSection() {
             <div className="video-embed-wrapper_fromtab">
               <div className="video-embed w-embed">
                 <div
-                  data-poster-url=""
-                  data-video-urls="/media/animation-reel.webm,/media/animation-reel.mp4"
-                  data-autoplay="true"
-                  data-loop="true"
-                  data-wf-ignore="true"
                   style={{ width: '100%', height: '100%' }}
                   className="w-background-video w-background-video-atom"
                 >
@@ -157,28 +141,22 @@ export default function HeroSection() {
                     muted
                     autoPlay
                     preload="none"
-                    style={{ backgroundImage: "url('')" }}
-                    data-wf-ignore="true"
-                    data-object-fit="cover"
+                    style={{ objectFit: 'cover' }}
                   >
-                    <source src="/media/animation-reel.webm" type="video/webm" data-wf-ignore="true" />
-                    <source src="/media/animation-reel.mp4" type="video/mp4" data-wf-ignore="true" />
+                    <source src="/media/animation-reel.webm" type="video/webm" />
+                    <source src="/media/animation-reel.mp4" type="video/mp4" />
                   </video>
                 </div>
               </div>
               <div className="showreel-text-wrapper-fromtab">
                 <div
                   className="showreel-playlottie only-icon"
-                  data-w-id="d7f85d61-8d38-5c11-8760-fc2aa3881cc5"
                   data-animation-type="lottie"
-                  data-src="https://uploads-ssl.webflow.com/5e56d5303779dac51cf15391/64707656de20455aa6404553_play%20button.json"
+                  data-src="/lottie/play-button.json"
                   data-loop="1"
                   data-direction="1"
                   data-autoplay="1"
-                  data-is-ix2-target="0"
                   data-renderer="svg"
-                  data-default-duration="1.334667946972529"
-                  data-duration="0"
                 />
                 <div className="text-style-h5-alt showreel hide">Showreel.mp4</div>
                 <div className="gradient-bg hide"></div>

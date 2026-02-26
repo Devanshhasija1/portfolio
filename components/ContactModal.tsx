@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback, useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { trackClick, trackModalClose } from '@/lib/gtag';
 
@@ -11,14 +11,24 @@ interface ContactModalProps {
 
 const EMAIL = 'hdevansh@gmail.com';
 const SUBJECT = 'Collaboration Inquiry';
+const MAILTO_URL = `mailto:${EMAIL}?subject=${encodeURIComponent(SUBJECT)}`;
 
 export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
   const [copied, setCopied] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const composeLinkRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    const link = composeLinkRef.current;
+    if (!link) return;
+    const handler = () => trackClick('contact', 'compose_email');
+    link.addEventListener('mousedown', handler);
+    return () => link.removeEventListener('mousedown', handler);
+  });
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -48,13 +58,6 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleCompose = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    trackClick('contact', 'compose_email');
-    window.open(`mailto:${EMAIL}?subject=${encodeURIComponent(SUBJECT)}`, '_self');
-  };
-
   return createPortal(
     <div className="resume-modal-overlay" onClick={onClose}>
       <div
@@ -79,9 +82,9 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
           <div className="contact-modal-actions">
             <a
-              href={`mailto:${EMAIL}?subject=${encodeURIComponent(SUBJECT)}`}
+              ref={composeLinkRef}
+              href={MAILTO_URL}
               className="contact-modal-btn primary"
-              onClick={handleCompose}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="2" y="4" width="20" height="16" rx="2" />

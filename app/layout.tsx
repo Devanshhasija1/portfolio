@@ -90,6 +90,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
+      { url: '/images/favicon.ico', sizes: 'any', type: 'image/x-icon' },
       { url: '/images/logo.png', sizes: '32x32', type: 'image/png' },
       { url: '/images/logo.png', sizes: '16x16', type: 'image/png' },
     ],
@@ -108,13 +109,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${roboto.variable} w-mod-js`}>
+    <html lang="en" className={roboto.variable}>
       <head>
         <meta name="theme-color" content="#000000" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
-        <link rel="dns-prefetch" href="https://uploads-ssl.webflow.com" />
         <link rel="stylesheet" href="/css/devansh-fantastic-project.css" />
         <script
           type="application/ld+json"
