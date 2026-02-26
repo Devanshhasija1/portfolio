@@ -1,13 +1,53 @@
 'use client';
 
+import { lazy, Suspense, useCallback, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import type { Project } from '@/lib/projects';
 import LoaderAnimation from '@/components/LoaderAnimation';
 
+const contentMap: Record<string, React.ComponentType<{ slug: string }>> = {
+  'spyne-connect': lazy(() => import('@/components/projects/SpyneContent')),
+};
+
 export default function ProjectPageClient({ project }: { project: Project }) {
+  const ContentComponent = contentMap[project.slug] ?? null;
+  const chapterRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
+
+  const scrollToSection = useCallback((sectionId: string) => {
+    const el = document.getElementById(sectionId);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', `#${sectionId}`);
+    }
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const sectionId = entry.target.id;
+          const chapterId = sectionId.replace(`${project.slug}-`, '');
+          chapterRefs.current.forEach((btn, id) => {
+            btn.classList.toggle('w--current', id === chapterId);
+          });
+        }
+      },
+      { rootMargin: '-20% 0px -60% 0px' },
+    );
+
+    project.chapters.forEach((ch) => {
+      const el = document.getElementById(`${project.slug}-${ch.id}`);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [project.slug, project.chapters]);
+
   return (
     <>
       <style jsx global>{`
+        html { scroll-behavior: smooth; }
         .section-nav { pointer-events: none; }
         .nav-pill { pointer-events: auto; }
         .chip-socials { pointer-events: auto; }
@@ -50,9 +90,15 @@ export default function ProjectPageClient({ project }: { project: Project }) {
             <div className="text-projectpage-overline sidebar">CONTENTS</div>
             <div className="sidebar-chapters-wrapper">
               {project.chapters.map((ch) => (
-                <a key={ch.id} href={`#${project.slug}-${ch.id}`} className="chapter w-inline-block">
+                <button
+                  key={ch.id}
+                  ref={(el) => { if (el) chapterRefs.current.set(ch.id, el); }}
+                  onClick={() => scrollToSection(`${project.slug}-${ch.id}`)}
+                  className="chapter w-inline-block"
+                  type="button"
+                >
                   <div>{ch.label}</div>
-                </a>
+                </button>
               ))}
             </div>
           </div>
@@ -119,6 +165,12 @@ export default function ProjectPageClient({ project }: { project: Project }) {
           </div>
         </div>
       </section>
+
+      {ContentComponent && (
+        <Suspense fallback={null}>
+          <ContentComponent slug={project.slug} />
+        </Suspense>
+      )}
     </>
   );
 }

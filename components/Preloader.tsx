@@ -1,8 +1,18 @@
 'use client';
 
+import { useState } from 'react';
 import LoaderAnimation from './LoaderAnimation';
 
 export default function Preloader() {
+  const [show] = useState(() => {
+    if (typeof window === 'undefined') return true;
+    try {
+      return sessionStorage.getItem('preloaderSeen') !== '1';
+    } catch { return true; }
+  });
+
+  if (!show) return null;
+
   return (
     <>
       <div className="preloader-page-wrapper">

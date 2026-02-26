@@ -573,14 +573,15 @@ export default function GsapAnimations() {
       pageWrapper?.classList.remove('no-click');
 
       const quickTL = gsap.timeline();
-      if (pageWrapper) quickTL.from(pageWrapper, { opacity: 0, duration: 0.3, ease: 'power2.out' });
-      if (navbarWrapper) quickTL.from(navbarWrapper, { opacity: 0, y: -20, duration: 0.3, ease: 'power2.out' }, '<');
-      if (crystalHeadContainers.length) quickTL.from(crystalHeadContainers, { opacity: 0, duration: 0.3, stagger: { each: 0.05 } }, '<');
-      if (bgWavesWrapperInner) quickTL.from(bgWavesWrapperInner, { opacity: 0, duration: 0.5 }, '<');
+      if (pageWrapper) quickTL.fromTo(pageWrapper, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' });
+      if (navbarWrapper) quickTL.fromTo(navbarWrapper, { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }, '<');
+      if (crystalHeadContainers.length) quickTL.fromTo(crystalHeadContainers, { opacity: 0 }, { opacity: 1, duration: 0.3, stagger: { each: 0.05 } }, '<');
+      if (bgWavesWrapperInner) quickTL.fromTo(bgWavesWrapperInner, { opacity: 0 }, { opacity: 1, duration: 0.5 }, '<');
 
       initPageAnimations();
 
       return () => {
+        quickTL.progress(1).kill();
         ScrollTrigger.getAll().forEach((t) => t.kill());
       };
     }
@@ -596,6 +597,7 @@ export default function GsapAnimations() {
     if (preloaderPageWrapper) gsap.set(preloaderPageWrapper, { yPercent: 100 });
 
     let cancelled = false;
+    let mainTL: gsap.core.Timeline | null = null;
 
     waitForReady().then(() => {
       if (cancelled) return;
@@ -621,7 +623,7 @@ export default function GsapAnimations() {
       const preloaderName1 = preloaderNames[0];
       const preloaderName2 = preloaderNames[1];
 
-      const mainTL = gsap.timeline({
+      mainTL = gsap.timeline({
         defaults: {
           duration: 0.8,
           ease: 'Expo.easeInOut',
@@ -655,11 +657,11 @@ export default function GsapAnimations() {
           '<'
         );
       }
-      if (pageWrapper) mainTL.from(pageWrapper, { opacity: 0, delay: 0.4 }, '<');
-      if (crystalHeadContainers.length) mainTL.from(crystalHeadContainers, { opacity: 0, duration: 0.5, stagger: { each: 0.1 } }, '<');
-      if (navbarWrapper) mainTL.from(navbarWrapper, { opacity: 0, y: -30, duration: 0.8, ease: 'Expo.easeOut' }, '<');
+      if (pageWrapper) mainTL.fromTo(pageWrapper, { opacity: 0 }, { opacity: 1, delay: 0.4 }, '<');
+      if (crystalHeadContainers.length) mainTL.fromTo(crystalHeadContainers, { opacity: 0 }, { opacity: 1, duration: 0.5, stagger: { each: 0.1 } }, '<');
+      if (navbarWrapper) mainTL.fromTo(navbarWrapper, { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 0.8, ease: 'Expo.easeOut' }, '<');
       if (preloaderPageWrapper) mainTL.to(preloaderPageWrapper, { opacity: 0, duration: 0.01 }, '>');
-      if (bgWavesWrapperInner) mainTL.from(bgWavesWrapperInner, { opacity: 0, duration: 1.2 }, '<');
+      if (bgWavesWrapperInner) mainTL.fromTo(bgWavesWrapperInner, { opacity: 0 }, { opacity: 1, duration: 1.2 }, '<');
 
       mainTL.call(() => {
         pageWrapper?.classList.remove('no-click');
@@ -672,6 +674,7 @@ export default function GsapAnimations() {
 
     return () => {
       cancelled = true;
+      if (mainTL) mainTL.progress(1).kill();
       ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, []);

@@ -3137,6 +3137,10 @@ a {
   grid-column-gap: 2.5em;
   grid-row-gap: 2.5em;
   display: flex;
+  background-color: #000;
+  border-radius: 999px;
+  padding: 0.5em 1.5em;
+  align-items: center;
 }
 .icon-container {
   padding: 20px;
@@ -8963,6 +8967,8 @@ a {
     grid-row-gap: 1em;
     flex-direction: column;
     align-items: flex-end;
+    padding: 0.5em 1.2em;
+    border-radius: 1.5em;
   }
   .onlydesktop {
     display: flex;

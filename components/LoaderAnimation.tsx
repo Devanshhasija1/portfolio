@@ -149,6 +149,8 @@ export default function LoaderAnimation({
     tl.call(() => {
       cancelAnimationFrame(animRef.current);
       canvas.style.display = 'none';
+      const parent = canvas.closest('.loading-overlay') as HTMLElement;
+      if (parent) parent.style.display = 'none';
     });
 
     // Remove the SSR black cover on first frame
